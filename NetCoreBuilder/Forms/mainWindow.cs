@@ -169,7 +169,7 @@ namespace NetCoreBuilder.Forms
                     {
                         ilp.Append(Instruction.Create(OpCodes.Dup));
                         ilp.Append(Instruction.Create(OpCodes.Ldc_I4, i));
-                        ilp.Append(Instruction.Create(OpCodes.Ldarg, i));
+                        ilp.Append(Instruction.Create(OpCodes.Ldarg, method.Parameters[i]));
                         ilp.Append(Instruction.Create(OpCodes.Stelem_Ref));
                     }
                 }
