@@ -16,8 +16,6 @@ namespace NetCoreBuilder.Forms
         AssemblyDefinition newModule = null;
         AssemblyDefinition loadedModule = null;
 
-        //CecilHelper importer = null;
-
         AssemblyNameReference netcoreRef;
         TypeReference objectReference = null;
         TypeReference objectReferenceNew = null;
@@ -59,7 +57,6 @@ namespace NetCoreBuilder.Forms
 
             foreach (ModuleDefinition md in loadedModule.Modules)
             {
-                //importer = new CecilImporter(newModule.MainModule);
                 foreach (TypeDefinition td in md.GetTypes())
                 {
                     DealWithType(td);
@@ -88,19 +85,7 @@ namespace NetCoreBuilder.Forms
 
             att |= TypeAttributes.Public;
 
-            //AutoLayout, AnsiClass, Class, Public, AutoClass, BeforeFieldInit
-
-            //TypeDefinition nTypeDef = new TypeDefinition(type.Namespace, type.Name, att);//TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.AutoClass | TypeAttributes.BeforeFieldInit)
-
-
-
-            //nTypeDef.IsClass = true;
-            //nTypeDef.BaseType = objectReferenceNew;
-
-            TypeDefinition nTypeDef = CecilHelper.Inject(newModule.MainModule, type);//importer.CreateImportedType(type);
-            //nTypeDef.Attributes = att;
-            //nTypeDef.IsClass = true;
-            //nTypeDef.BaseType = objectReferenceNew;
+            TypeDefinition nTypeDef = CecilHelper.Inject(newModule.MainModule, type);
 
             CustomAttribute rcAtt = null;
 
