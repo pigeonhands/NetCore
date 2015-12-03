@@ -32,13 +32,14 @@ namespace NetCoreServer
                             if (mi.DeclaringType != t)
                                 continue;
                             string name = string.Format("{0}.{1}", t.FullName, mi.Name);
-                            if(LoadedFunctions.ContainsKey(name))
+                            string hash = Hashing.SHA(name);
+                            if (LoadedFunctions.ContainsKey(hash))
                             {
                                 Console.WriteLine("Duplicate name: {0}", name);
                             }
                             else
                             {
-                                LoadedFunctions.Add(name, mi);
+                                LoadedFunctions.Add(hash, mi);
                                 Console.WriteLine("Loaded {0}", name);
                             }
                         }

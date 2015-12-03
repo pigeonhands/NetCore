@@ -19,9 +19,14 @@ namespace NetCore_TExample
         [RemoteCall]
         static string TestExtern(string s1, string s2)
         {
-            return "Hello World! " + string.Format("S1: {0} | S2: {1}", s1, s2);
+            return TestExtern2(string.Format("S1: {0} | S2: {1}", s1, s2));
         }
 
+        [RemoteMove]
+        static string TestExtern2(string s)
+        {
+            return string.Format("Ayy Lamow: {0}", s);
+        }
         
     }
 }

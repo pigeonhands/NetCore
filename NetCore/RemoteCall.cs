@@ -8,7 +8,12 @@ namespace NetCore
 {
     [AttributeUsage(System.AttributeTargets.Method)]
     public class RemoteCallAttribute : Attribute
-    {
-        public bool IsNetCore { get { return true; } }
+    { 
     }
+
+    [AttributeUsage(System.AttributeTargets.Method)]
+    public class RemoteMoveAttribute : Attribute
+    {
+    }
+
 }

@@ -44,11 +44,18 @@ public static class CecilHelper
         foreach (MethodDefinition definition6 in type.Methods)
         {
             bool hasAttribute = false;
+            bool isPublic = true;
             foreach (var i in definition6.CustomAttributes)
             {
                 if (i.AttributeType.FullName == "NetCore.RemoteCallAttribute")
                 {
                     hasAttribute = true;
+                    break;
+                }
+                if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
+                {
+                    hasAttribute = true;
+                    isPublic = false;
                     break;
                 }
             }
@@ -58,7 +65,11 @@ public static class CecilHelper
             MethodAttributes methodAtt = definition6.Attributes;
             if (methodAtt.HasFlag(MethodAttributes.Private))
                 methodAtt &= ~MethodAttributes.Private;
-            methodAtt |= MethodAttributes.Public;
+
+            if (isPublic)
+                methodAtt |= MethodAttributes.Public;
+            else
+                methodAtt |= MethodAttributes.Private;
 
             MethodDefinition definition7 = new MethodDefinition(definition6.Name, methodAtt, definition6.ReturnType);
             mems.Add(definition6.MetadataToken, definition7);
@@ -452,11 +463,18 @@ public static class CecilHelper
         foreach (MethodDefinition definition4 in type.Methods)
         {
             bool hasAttribute = false;
+            bool isPublic = true;
             foreach (var i in definition4.CustomAttributes)
             {
                 if (i.AttributeType.FullName == "NetCore.RemoteCallAttribute")
                 {
                     hasAttribute = true;
+                    break;
+                }
+                if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
+                {
+                    hasAttribute = true;
+                    isPublic = false;
                     break;
                 }
             }
@@ -467,7 +485,11 @@ public static class CecilHelper
             if (methodAtt.HasFlag(MethodAttributes.Private))
                 methodAtt &= ~MethodAttributes.Private;
 
-            methodAtt |= MethodAttributes.Public;
+            if(isPublic)
+                methodAtt |= MethodAttributes.Public;
+            else
+                methodAtt |= MethodAttributes.Private;
+
             definition4.Attributes = methodAtt;
 
             PopulateMethod(mod, definition4, mems[definition4.MetadataToken] as MethodDefinition, mems);

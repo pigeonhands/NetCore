@@ -1,16 +1,10 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
-using NetCore;
+using NetCore.Networking;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NetCoreBuilder.Forms
@@ -42,6 +36,7 @@ namespace NetCoreBuilder.Forms
             }
 
             loadedModule = AssemblyDefinition.ReadAssembly(tbFilePath.Text);
+            
 
             foreach(var refrence in loadedModule.MainModule.AssemblyReferences)
             {
@@ -110,6 +105,8 @@ namespace NetCoreBuilder.Forms
             CustomAttribute rcAtt = null;
 
             bool add = false;
+            List<MethodDefinition> RemoveMethods = new List<MethodDefinition>();
+
             foreach (MethodDefinition method in type.Methods)
             {
                 
@@ -117,12 +114,21 @@ namespace NetCoreBuilder.Forms
                     continue;
 
                 bool hasAttribute = false;
-                foreach(var i in method.CustomAttributes)
+                bool isPublic = true;
+
+                foreach (var i in method.CustomAttributes)
                 {
                     if (i.AttributeType.FullName == "NetCore.RemoteCallAttribute")
                     {
                         hasAttribute = true;
                         rcAtt = i;
+                        break;
+                    }
+                    if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
+                    {
+                        hasAttribute = true;
+                        rcAtt = i;
+                        isPublic = false;
                         break;
                     }
                 }
@@ -137,23 +143,17 @@ namespace NetCoreBuilder.Forms
 
                 add = true;
 
-                /*
-                MethodAttributes methodAtt = method.Attributes;
-                if (methodAtt.HasFlag(MethodAttributes.Private))
-                    methodAtt &= ~MethodAttributes.Private;
-
-                methodAtt |= MethodAttributes.Public;
-
-                //MethodDefinition newMethod = new MethodDefinition(method.Name, methodAtt, method.ReturnType);
-                //newMethod.Body = CecilHelper.Inject(newModule.MainModule, method);//importer.CreateImportedMethodBody(type, method, method.Body);
-                //nTypeDef.Methods.Add(newMethod);
-                */
+                if(!isPublic)
+                {
+                    RemoveMethods.Add(method);
+                    continue;
+                }
 
                 method.Body.Instructions.Clear();
 
                 ILProcessor ilp = method.Body.GetILProcessor();
                 
-                ilp.Append(Instruction.Create(OpCodes.Ldstr, string.Format("{0}.{1}", type.FullName, method.Name))); //Hash this
+                ilp.Append(Instruction.Create(OpCodes.Ldstr, Hashing.SHA(string.Format("{0}.{1}", type.FullName, method.Name))));
 
                 if (method.Parameters.Count == 0)
                 {
@@ -163,7 +163,7 @@ namespace NetCoreBuilder.Forms
                 else
                 {
                     ilp.Append(Instruction.Create(OpCodes.Ldc_I4, method.Parameters.Count));
-                    ilp.Append(Instruction.Create(OpCodes.Newarr, objectReference));// ths is in the old module, so we use that reference :)
+                    ilp.Append(Instruction.Create(OpCodes.Newarr, objectReference));
 
                     for (int i = 0; i < method.Parameters.Count; i++)
                     {
@@ -177,6 +177,9 @@ namespace NetCoreBuilder.Forms
                 ilp.Append(Instruction.Create(OpCodes.Unbox_Any, method.ReturnType));
                 ilp.Append(Instruction.Create(OpCodes.Ret));
             }
+
+            foreach (MethodDefinition md in RemoveMethods)
+                type.Methods.Remove(md);
 
 
             if(add)
