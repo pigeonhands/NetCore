@@ -72,6 +72,10 @@ namespace NetCoreServer
                     Console.Write(errorMessage);
                     Console.ForegroundColor = ConsoleColor.Magenta;
                 }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Error: {0}", ex.Message);
+                }
             }
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
