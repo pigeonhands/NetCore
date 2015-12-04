@@ -117,7 +117,7 @@ namespace NetCoreBuilder.Forms
                 if (!method.IsStatic)
                     continue;
 
-                Visibility visibility = Visibility.Public;
+                TransportAction visibility = TransportAction.Public;
                
                 if (!TypeCheck.KeepMethod(type, method, out visibility))
                     continue;
@@ -130,13 +130,13 @@ namespace NetCoreBuilder.Forms
 
                 add = true;
 
-                if(visibility == Visibility.PrivateMove)
+                if(visibility == TransportAction.Move)
                 {
                     RemoveMethods.Add(method);
                     continue;
                 }
 
-                if (visibility == Visibility.PrivateCopy)
+                if (visibility == TransportAction.Copy)
                     continue;
 
                 method.Body.Instructions.Clear();

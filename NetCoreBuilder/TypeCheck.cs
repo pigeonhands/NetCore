@@ -9,10 +9,10 @@ namespace NetCoreBuilder
 {
     public class TypeCheck
     {
-        public static bool KeepMethod(TypeDefinition type, MethodDefinition method, out Visibility visibility)
+        public static bool KeepMethod(TypeDefinition type, MethodDefinition method, out TransportAction visibility)
         {
             bool hasAttribute = false;
-            Visibility vis = Visibility.Public; ;
+            TransportAction vis = TransportAction.Public; ;
 
 
             if (method.Name == ".cctor" && type.IsSealed && type.IsAbstract)
@@ -23,7 +23,7 @@ namespace NetCoreBuilder
                 {
                     if (i.AttributeType.FullName == "NetCore.ClearFieldsAttribute")
                     {
-                        vis = Visibility.PrivateMove;
+                        vis = TransportAction.Move;
                         break;
                     }
                 }
@@ -40,13 +40,13 @@ namespace NetCoreBuilder
                     if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
                     {
                         hasAttribute = true;
-                        vis = Visibility.PrivateMove;
+                        vis = TransportAction.Move;
                         break;
                     }
                     if (i.AttributeType.FullName == "NetCore.RemoteCopyAttribute")
                     {
                         hasAttribute = true;
-                        vis = Visibility.PrivateCopy;
+                        vis = TransportAction.Copy;
                         break;
                     }
                 }
@@ -56,10 +56,10 @@ namespace NetCoreBuilder
         }
     }
 
-    public enum Visibility
+    public enum TransportAction
     {
         Public,
-        PrivateCopy,
-        PrivateMove
+        Copy,
+        Move
     }
 }

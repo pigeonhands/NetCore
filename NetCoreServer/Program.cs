@@ -33,7 +33,7 @@ namespace NetCoreServer
 
                         foreach (MethodInfo mi in t.GetMethods())
                         {
-                            if (mi.DeclaringType != t)
+                            if (!Attribute.IsDefined(mi, typeof(RemoteCallAttribute)))
                                 continue;
                             string name = string.Format("{0}.{1}", t.FullName, mi.Name);
                             string hash = Hashing.SHA(name);

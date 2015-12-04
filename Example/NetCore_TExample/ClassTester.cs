@@ -12,13 +12,25 @@ namespace NetCore_TExample
         [RemoteCall]
         public static string GetHiddenField()
         {
-            return RemoveSpaces(HiddenField);
+            return AddSmiley(RemoveSpaces(HiddenField));
         }
 
         [RemoteCopy]
         public static string RemoveSpaces(string s)
         {
             return s.Replace(" ", "");
+        }
+
+        [RemoteCopy]
+        private static string RemoveSpacesPrivate(string s)
+        {
+            return s.Replace(" ", "");
+        }
+
+        [RemoteMove]
+        public static string AddSmiley(string s)
+        {
+            return s + " :)";
         }
     }
 }
