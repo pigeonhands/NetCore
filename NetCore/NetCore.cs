@@ -1,9 +1,5 @@
 ﻿using NetCore.Networking;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetCore
 {
@@ -33,6 +29,28 @@ namespace NetCore
                 return false;
             }
         }
+        public static bool ConnectWithProxy(string proxyIP, int proxyPort, string targetIp, int targetPort, string username="", string password="")
+        {
+            _client = new eSock.Client();
+            if (!_client.ConnectProxy(proxyIP, proxyPort, targetIp, targetPort, username, password))
+                return false;
+            try
+            {
+                object[] data = _client.Send((byte)NetworkHeaders.Handshake);
+                if ((NetworkHeaders)data[0] != NetworkHeaders.AcceptHandshake)
+                    return false;
+                string encryptionKey = (string)data[1];
+
+                _client.Encryption.EncryptionKey = encryptionKey;
+                _client.Encryption.Enabled = true;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static object CreateRemoteCall(string function, object[] args)
         {
             if (_client == null)

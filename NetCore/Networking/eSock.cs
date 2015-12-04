@@ -385,6 +385,119 @@ namespace NetCore.Networking
                 }
             }
 
+            public bool ConnectProxy(string ProxyIP, int proxyPort, string IP, int port, string userName, string password)
+            {
+                //Thanks LaPanthere
+                try
+                {
+                    IPAddress destIP = IPAddress.Parse(IP);
+
+                    byte[] request = new byte[257];
+                    byte[] response = new byte[257];
+
+                    _globalSocket.Connect(ProxyIP, proxyPort);
+
+                    int nIndex = 0;
+                    request[nIndex++] = (byte)SocksVersion.Socks5; // Version 5.
+                    request[nIndex++] = 0x02; // 2 Authentication methods are in packet...
+                    request[nIndex++] = (byte)AuthType.None; // NO AUTHENTICATION REQUIRED
+                    request[nIndex++] = (byte)AuthType.UserPass; // USERNAME/PASSWORD
+
+                    _globalSocket.Send(request, nIndex, SocketFlags.None);
+
+                    int rSize = _globalSocket.Receive(response);
+                    if (rSize != 2)
+                        throw new Exception("Bad response received from proxy server.");
+
+                    if (response[1] == (byte)AuthType.NoAcceptableMethod)
+                    {
+                        _globalSocket.Close();
+                        throw new Exception("None of the authentication method was accepted by proxy server.");
+                    }
+
+                    byte[] rawBytes;
+
+                    if (response[1] == (byte)AuthType.UserPass)
+                    {
+                        //Username/Password Authentication protocol
+                        nIndex = 0;
+                        request[nIndex++] = 1; // Version 1 of the subnegotiation https://tools.ietf.org/html/rfc1929
+
+                        // add user name
+                        request[nIndex++] = (byte)userName.Length;
+                        rawBytes = Encoding.ASCII.GetBytes(userName);
+                        rawBytes.CopyTo(request, nIndex);
+                        nIndex += (ushort)rawBytes.Length;
+
+                        request[nIndex++] = (byte)password.Length;
+                        rawBytes = Encoding.ASCII.GetBytes(password);
+                        rawBytes.CopyTo(request, nIndex);
+                        nIndex += (ushort)rawBytes.Length;
+
+                        
+
+                        _globalSocket.Send(request, nIndex, SocketFlags.None);
+                        rSize = _globalSocket.Receive(response, 2, SocketFlags.None);
+                        if (rSize != 2)
+                            throw new Exception("Bad response received from proxy server.");
+                        if (response[1] != 0x00)
+                            throw new Exception("Bad Username/Password.");
+
+                        nIndex = 0;
+                        request[nIndex++] = (byte)SocksVersion.Socks5;    // version 5.
+                        request[nIndex++] = (byte)Command.Connect;    // command = connect.
+                        request[nIndex++] = 0x00;    // Reserve = must be 0x00
+
+                        if (destIP != null)
+                        {// Destination adress in an IP.
+                            switch (destIP.AddressFamily)
+                            {
+                                case AddressFamily.InterNetwork:
+                                    // Address is IPV4 format
+                                    request[nIndex++] = (byte)AddressFormat.IPv4;
+                                    rawBytes = destIP.GetAddressBytes();
+                                    rawBytes.CopyTo(request, nIndex);
+                                    nIndex += (ushort)rawBytes.Length;
+                                    break;
+                                case AddressFamily.InterNetworkV6:
+                                    // Address is IPV6 format
+                                    request[nIndex++] = (byte)AddressFormat.IPv6;
+                                    rawBytes = destIP.GetAddressBytes();
+                                    rawBytes.CopyTo(request, nIndex);
+                                    nIndex += (ushort)rawBytes.Length;
+                                    break;
+                            }
+                        }
+                        else
+                        {// Dest. address is domain name.
+                            request[nIndex++] = (byte)AddressFormat.DomainName;    // Address is full-qualified domain name.
+                            request[nIndex++] = Convert.ToByte(IP.Length); // length of address.
+                            rawBytes = Encoding.Default.GetBytes(IP);
+                            rawBytes.CopyTo(request, nIndex);
+                            nIndex += (ushort)rawBytes.Length;
+                        }
+
+                        // using big-edian byte order
+                        byte[] portBytes = BitConverter.GetBytes(port);
+                        for (int i = portBytes.Length - 1; i >= 0; i--)
+                            request[nIndex++] = portBytes[i];
+
+                        // send connect request.
+                        _globalSocket.Send(request, nIndex, SocketFlags.None);
+                        _globalSocket.Receive(response);    // Get variable length response...
+                        if (response[1] != 0x00)
+                            throw new Exception(response[1].ToString());
+                        // Success Connected...
+                        return true;
+                    }
+                }
+                catch
+                {
+                    
+                }
+                return false;
+            }
+
             public bool Connect(IPEndPoint endpoint)
             {
                 try
@@ -681,4 +794,31 @@ namespace NetCore.Networking
         #endregion
 
     }
+
+    #region Enums
+    enum SocksVersion : byte
+    {
+        Socks5 = 0x05,
+
+    }
+    enum AuthType : byte
+    {
+        None = 0x00,
+        GSSAPI = 0x01,
+        UserPass = 0x02,
+        NoAcceptableMethod = 0xFF
+    }
+    enum Command : byte
+    {
+        Connect = 0x01,
+        Bind = 0x02,
+        UDPAssociate = 0x03
+    }
+    enum AddressFormat : byte
+    {
+        IPv4 = 0x01,
+        DomainName = 0x3,
+        IPv6 = 0x04,
+    }
+    #endregion
 }
