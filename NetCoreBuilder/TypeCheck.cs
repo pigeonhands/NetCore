@@ -53,7 +53,6 @@ namespace NetCoreBuilder
                     }
                 }
             }
-
             visibility = vis;
             return hasAttribute;
 

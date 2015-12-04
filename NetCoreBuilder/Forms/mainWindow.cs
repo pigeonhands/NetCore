@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.VisualBasic.MyServices;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.Devices;
 
 namespace NetCoreBuilder.Forms
 {
@@ -69,11 +66,7 @@ namespace NetCoreBuilder.Forms
 
         void DealWithType(TypeDefinition type)
         {
-            if (type.Namespace.EndsWith(".My"))
-            {
-                newModule.MainModule.Types.Remove(type);
-                return;
-            }
+            
 
             TypeAttributes att = type.Attributes;
             if (att.HasFlag(TypeAttributes.NotPublic))
@@ -82,6 +75,13 @@ namespace NetCoreBuilder.Forms
             att |= TypeAttributes.Public;
 
             TypeDefinition nTypeDef = CecilHelper.Inject(newModule.MainModule, type);
+
+            if (type.CustomAttributes.Where(x => x.AttributeType.FullName == "System.CodeDom.Compiler.GeneratedCodeAttribute").Count() != 0)//type.Namespace.EndsWith(".My")
+            {
+                // newModule.MainModule.Types.Add(.DeclaringType);
+                newModule.MainModule.Import(type);
+                return;
+            }
 
             bool add = false;
             List<MethodDefinition> RemoveMethods = new List<MethodDefinition>();
@@ -168,8 +168,8 @@ namespace NetCoreBuilder.Forms
         AssemblyDefinition GenerateStockType(string path, AssemblyDefinition assem)
         {
             AssemblyDefinition newModule = AssemblyDefinition.CreateAssembly(assem.Name, assem.MainModule.Name, ModuleKind.Dll);
-            foreach (var asm in assem.MainModule.AssemblyReferences)
-                newModule.MainModule.AssemblyReferences.Add(asm);
+           // foreach (var asm in assem.MainModule.AssemblyReferences)
+             //   newModule.MainModule.AssemblyReferences.Add(asm);
             return newModule;
         }
 
