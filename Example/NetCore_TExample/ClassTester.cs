@@ -1,28 +1,27 @@
 ﻿using System.Net;
 using NetCore;
+using System.Windows.Forms;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace NetCore_TExample
 {
-    public static class ClassTester
+    public class ClassTester
     {
         static string HiddenField = "Nice meme.";
 
         [RemoteCall]
-        public static string GetHiddenField()
+        public static string Check()
         {
-            return AddSmiley(RemoveSpaces(HiddenField));
-        }
-
-        [RemoteCopy]
-        public static string RemoveSpaces(string s)
-        {
-            return s.Replace(" ", "");
+            SqlCommand command = new SqlCommand();
+            return check2(command);
         }
 
         [RemoteMove]
-        public static string AddSmiley(string s)
+        public static string check2(SqlCommand sq)
         {
-            return s + " :)";
+            SqlDataReader reader = null;
+            return "Strange.";
         }
     }
 }

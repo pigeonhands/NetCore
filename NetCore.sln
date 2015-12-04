@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore_TExample", "Example
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreServer", "NetCoreServer\NetCoreServer.csproj", "{C144265F-038A-4FDE-8524-8438FD5106A6}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NetCore_TExampleVB", "Example\NetCore_TExampleVB\NetCore_TExampleVB.vbproj", "{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +37,16 @@ Global
 		{C144265F-038A-4FDE-8524-8438FD5106A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C144265F-038A-4FDE-8524-8438FD5106A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C144265F-038A-4FDE-8524-8438FD5106A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F07E12A2-05E6-411F-AC82-BCF10FF591C7} = {7E4139BD-0983-4D47-A456-FFE585056E51}
+		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6} = {7E4139BD-0983-4D47-A456-FFE585056E51}
 	EndGlobalSection
 EndGlobal

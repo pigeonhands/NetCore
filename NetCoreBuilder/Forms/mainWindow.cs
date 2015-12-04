@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.MyServices;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.Devices;
 
 namespace NetCoreBuilder.Forms
 {
@@ -16,7 +19,6 @@ namespace NetCoreBuilder.Forms
         AssemblyDefinition newModule = null;
         AssemblyDefinition loadedModule = null;
 
-        AssemblyNameReference netcoreRef;
         TypeReference objectReference = null;
         TypeReference objectReferenceNew = null;
         MethodReference CreateRemoteCallRef;
@@ -32,22 +34,11 @@ namespace NetCoreBuilder.Forms
                 MessageBox.Show("Invalid FIle.");
                 return;
             }
-
             loadedModule = AssemblyDefinition.ReadAssembly(tbFilePath.Text);
             
-
-            foreach(var refrence in loadedModule.MainModule.AssemblyReferences)
-            {
-                if(refrence.FullName == "NetCore")
-                {
-                    netcoreRef = refrence;
-                    break;
-                }
-            }
-
             AssemblyDefinition netCodeAsm = AssemblyDefinition.ReadAssembly("NetCore.dll");
             TypeDefinition netCoreType = netCodeAsm.MainModule.GetType("NetCore.NetCoreClient");
-
+           
             newModule = GenerateStockType(tbOutoutAssem.Text, loadedModule);
 
             objectReference = loadedModule.MainModule.Import((typeof(object)));
@@ -70,15 +61,20 @@ namespace NetCoreBuilder.Forms
                 MessageBox.Show("Done.");
                 
            }
-           catch
+           catch(Exception ex)
            {
-                MessageBox.Show("Failed.");
+                MessageBox.Show("Failed. \n" + ex.Message);
             }
         }
 
         void DealWithType(TypeDefinition type)
         {
-            
+            if (type.Namespace.EndsWith(".My"))
+            {
+                newModule.MainModule.Types.Remove(type);
+                return;
+            }
+
             TypeAttributes att = type.Attributes;
             if (att.HasFlag(TypeAttributes.NotPublic))
                 att &= ~TypeAttributes.NotPublic;
@@ -93,7 +89,8 @@ namespace NetCoreBuilder.Forms
 
             foreach (MethodDefinition method in type.Methods)
             {
-                
+
+
                 if (!method.HasBody)
                     continue;
                 if (!method.IsStatic)
@@ -166,14 +163,13 @@ namespace NetCoreBuilder.Forms
             {
                 newModule.MainModule.Types.Add(nTypeDef);
             }
-
-
-           
         }
 
         AssemblyDefinition GenerateStockType(string path, AssemblyDefinition assem)
         {
             AssemblyDefinition newModule = AssemblyDefinition.CreateAssembly(assem.Name, assem.MainModule.Name, ModuleKind.Dll);
+            foreach (var asm in assem.MainModule.AssemblyReferences)
+                newModule.MainModule.AssemblyReferences.Add(asm);
             return newModule;
         }
 

@@ -14,7 +14,7 @@ namespace NetCore_TExample
                 Console.ReadLine();
                 return;
             }
-            Console.WriteLine("Hidden value: {0}", ClassTester.GetHiddenField());
+            Console.WriteLine("Hidden value: {0}", ClassTester.Check());
 
             Console.ReadLine();
         }
