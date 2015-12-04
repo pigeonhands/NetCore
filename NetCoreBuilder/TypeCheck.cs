@@ -15,7 +15,7 @@ namespace NetCoreBuilder
             TransportAction vis = TransportAction.Public; ;
 
 
-            if (method.Name == ".cctor" && type.IsSealed && type.IsAbstract)
+            if (method.Name == ".cctor")
             {
                 hasAttribute = true;
 
