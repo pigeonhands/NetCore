@@ -19,7 +19,7 @@ namespace NetCore
 
             try
             {
-                object[] data = (object[])_client.Send((byte)NetworkHeaders.Handshake);
+                object[] data = _client.Send((byte)NetworkHeaders.Handshake);
                 if ((NetworkHeaders)data[0] != NetworkHeaders.AcceptHandshake)
                     return false;
                 string encryptionKey = (string)data[1];
@@ -33,13 +33,19 @@ namespace NetCore
                 return false;
             }
         }
-        public static object CreateRemoteCall(string function, object args)
+        public static object CreateRemoteCall(string function, object[] args)
         {
             if (_client == null)
+            {
+                Console.WriteLine("[NetCore] Attempted RemoteCall with null client");
                 return null;
+            }
 
             if (!_client.Connected)
+            {
+                Console.WriteLine("[NetCore] Attempted RemoteCall without connection");
                 return null;
+            }
 
             try
             {

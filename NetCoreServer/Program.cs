@@ -17,9 +17,13 @@ namespace NetCoreServer
             DirectoryInfo di = new DirectoryInfo("Modules");
             if (!di.Exists)
                 di.Create();
-            Console.WriteLine("NetCore Server - BahNahNah");
 
-            foreach(FileInfo fi in di.GetFiles("*.ncm"))
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("NetCore Server - BahNahNah");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+
+            foreach (FileInfo fi in di.GetFiles("*.ncm"))
             {
                 try
                 {
@@ -64,15 +68,25 @@ namespace NetCoreServer
                         sb.AppendLine();
                     }
                     string errorMessage = sb.ToString();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write(errorMessage);
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                 }
             }
 
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Loaded {0} remote functions.", LoadedFunctions.Count);
+            Console.WriteLine();
+
             int port = 0;
+            Console.ResetColor();
             Console.Write("Listening port (default 3345): ");
+            
+
             if (!int.TryParse(Console.ReadLine(), out port))
                 port = 3345;
 
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Starting on port {0}...", port);
             _server = new eSock.Server();
 
@@ -80,13 +94,16 @@ namespace NetCoreServer
 
             if (!_server.Start(port))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Failed to start on port {0}, press enter to exit.", port);
                 Console.ReadLine();
                 return;
             }
 
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("Server started!");
-
+            Console.WriteLine();
+            Console.ResetColor();
 
             while (true)
                 Console.ReadLine();
@@ -128,7 +145,9 @@ namespace NetCoreServer
             }
             catch(Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error: {0}", ex.Message);
+                Console.ResetColor();
             }
         }
     }

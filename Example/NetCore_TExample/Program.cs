@@ -1,9 +1,5 @@
-﻿using NetCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using NetCore;
 
 namespace NetCore_TExample
 {
@@ -11,21 +7,29 @@ namespace NetCore_TExample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("NetCore Loaded: {0}", NetCoreClient.Connect("127.0.0.1", 3345));
-            Console.WriteLine("Value: {0}", TestExtern("Derp", "Kek"));
+            if(!NetCoreClient.Connect("127.0.0.1", 3345))
+            {
+                Console.WriteLine("Failed to connect to netcore server.");
+                Console.ReadLine();
+                return;
+            }
+
+            int number = 10;
+            Console.WriteLine("Original Number: {0}", number);
+            Console.WriteLine("Processed Number: {0}", ProtectedMethod(number));
             Console.ReadLine();
         }
 
         [RemoteCall]
-        static string TestExtern(string s1, string s2)
+        static int ProtectedMethod(int num)
         {
-            return TestExtern2(string.Format("S1: {0} | S2: {1}", s1, s2));
+            return XOR(num, num * num);
         }
 
         [RemoteMove]
-        static string TestExtern2(string s)
+        static int XOR(int num1, int num2)
         {
-            return string.Format("Ayy Lamow: {0}", s);
+            return num1 ^ num2;
         }
         
     }
