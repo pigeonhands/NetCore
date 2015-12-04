@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeCheck.cs" />
     <EmbeddedResource Include="Forms\mainWindow.resx">
       <DependentUpon>mainWindow.cs</DependentUpon>
     </EmbeddedResource>

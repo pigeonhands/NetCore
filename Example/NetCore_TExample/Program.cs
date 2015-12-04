@@ -5,31 +5,18 @@ namespace NetCore_TExample
 {
     class Program
     {
+        static int Kek = 10;
         static void Main(string[] args)
         {
             if(!NetCoreClient.Connect("127.0.0.1", 3345))
             {
-                Console.WriteLine("Failed to connect to netcore server.");
+                Console.WriteLine("Failed to connect to NetCore server.");
                 Console.ReadLine();
                 return;
             }
+            Console.WriteLine("Hidden value: {0}", ClassTester.GetHiddenField());
 
-            int number = 10;
-            Console.WriteLine("Original Number: {0}", number);
-            Console.WriteLine("Processed Number: {0}", ProtectedMethod(number));
             Console.ReadLine();
-        }
-
-        [RemoteCall]
-        static int ProtectedMethod(int num)
-        {
-            return XOR(num, num * num);
-        }
-
-        [RemoteMove]
-        static int XOR(int num1, int num2)
-        {
-            return num1 ^ num2;
         }
         
     }

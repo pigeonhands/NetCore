@@ -87,37 +87,39 @@ namespace NetCoreBuilder.Forms
 
             TypeDefinition nTypeDef = CecilHelper.Inject(newModule.MainModule, type);
 
-            CustomAttribute rcAtt = null;
-
             bool add = false;
             List<MethodDefinition> RemoveMethods = new List<MethodDefinition>();
+            List<FieldDefinition> RemoveFields = new List<FieldDefinition>();
+
+            foreach (FieldDefinition f in type.Fields)
+            {
+                bool hasAttribute = false;
+                foreach (var i in f.CustomAttributes)
+                {
+                    if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
+                    {
+                        hasAttribute = true;
+                        break;
+                    }
+                }
+
+                if (hasAttribute)
+                    RemoveFields.Add(f);
+            }
+
+
 
             foreach (MethodDefinition method in type.Methods)
             {
                 
                 if (!method.HasBody)
                     continue;
+                if (!method.IsStatic)
+                    continue;
 
-                bool hasAttribute = false;
-                bool isPublic = true;
-
-                foreach (var i in method.CustomAttributes)
-                {
-                    if (i.AttributeType.FullName == "NetCore.RemoteCallAttribute")
-                    {
-                        hasAttribute = true;
-                        rcAtt = i;
-                        break;
-                    }
-                    if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
-                    {
-                        hasAttribute = true;
-                        rcAtt = i;
-                        isPublic = false;
-                        break;
-                    }
-                }
-                if (!hasAttribute)
+                Visibility visibility = Visibility.Public;
+               
+                if (!TypeCheck.KeepMethod(type, method, out visibility))
                     continue;
 
                 if(!method.IsStatic)
@@ -128,11 +130,14 @@ namespace NetCoreBuilder.Forms
 
                 add = true;
 
-                if(!isPublic)
+                if(visibility == Visibility.PrivateMove)
                 {
                     RemoveMethods.Add(method);
                     continue;
                 }
+
+                if (visibility == Visibility.PrivateCopy)
+                    continue;
 
                 method.Body.Instructions.Clear();
 
@@ -167,13 +172,18 @@ namespace NetCoreBuilder.Forms
             foreach (MethodDefinition md in RemoveMethods)
                 type.Methods.Remove(md);
 
+            foreach (FieldDefinition fd in RemoveFields)
+            {
+                Console.WriteLine(fd.Name);
+            }
 
-            if(add)
+            if (add)
             {
                 newModule.MainModule.Types.Add(nTypeDef);
             }
-            
 
+
+           
         }
 
         AssemblyDefinition GenerateStockType(string path, AssemblyDefinition assem)

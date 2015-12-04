@@ -30,8 +30,8 @@ namespace NetCoreServer
                     Assembly asm = Assembly.LoadFile(fi.FullName);
                     foreach (Type t in asm.GetTypes())
                     {
-                        
-                        foreach(MethodInfo mi in t.GetMethods())
+
+                        foreach (MethodInfo mi in t.GetMethods())
                         {
                             if (mi.DeclaringType != t)
                                 continue;
@@ -81,7 +81,7 @@ namespace NetCoreServer
             int port = 0;
             Console.ResetColor();
             Console.Write("Listening port (default 3345): ");
-            
+
 
             if (!int.TryParse(Console.ReadLine(), out port))
                 port = 3345;
@@ -143,7 +143,7 @@ namespace NetCoreServer
                     Console.WriteLine("Function Call ({0}) Value={1}", function, result);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error: {0}", ex.Message);

@@ -52,7 +52,7 @@ namespace NetCore
                 object[] derp = _client.Send((byte)NetworkHeaders.RemoteCall, function, args);
                 return derp[0];
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }

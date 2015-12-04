@@ -10,6 +10,7 @@ namespace NetCore.Networking
     {
         Handshake,
         AcceptHandshake,
+        DenyHandShake,
         RemoteCall
     }
 }

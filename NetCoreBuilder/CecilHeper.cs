@@ -1,10 +1,11 @@
 ﻿
-    using Mono.Cecil;
-    using Mono.Cecil.Cil;
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-    using System.Text;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
+using NetCoreBuilder;
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 
 
@@ -43,30 +44,15 @@ public static class CecilHelper
         }
         foreach (MethodDefinition definition6 in type.Methods)
         {
-            bool hasAttribute = false;
-            bool isPublic = true;
-            foreach (var i in definition6.CustomAttributes)
-            {
-                if (i.AttributeType.FullName == "NetCore.RemoteCallAttribute")
-                {
-                    hasAttribute = true;
-                    break;
-                }
-                if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
-                {
-                    hasAttribute = true;
-                    isPublic = false;
-                    break;
-                }
-            }
-            if (!hasAttribute)
+            Visibility visible = Visibility.Public;
+            if (!TypeCheck.KeepMethod(type, definition6, out visible))
                 continue;
 
             MethodAttributes methodAtt = definition6.Attributes;
             if (methodAtt.HasFlag(MethodAttributes.Private))
                 methodAtt &= ~MethodAttributes.Private;
 
-            if (isPublic)
+            if (visible == Visibility.Public)
                 methodAtt |= MethodAttributes.Public;
             else
                 methodAtt |= MethodAttributes.Private;
@@ -462,30 +448,15 @@ public static class CecilHelper
         }
         foreach (MethodDefinition definition4 in type.Methods)
         {
-            bool hasAttribute = false;
-            bool isPublic = true;
-            foreach (var i in definition4.CustomAttributes)
-            {
-                if (i.AttributeType.FullName == "NetCore.RemoteCallAttribute")
-                {
-                    hasAttribute = true;
-                    break;
-                }
-                if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
-                {
-                    hasAttribute = true;
-                    isPublic = false;
-                    break;
-                }
-            }
-            if (!hasAttribute)
+            Visibility visible = Visibility.Public;
+            if (!TypeCheck.KeepMethod(type, definition4, out visible))
                 continue;
 
             MethodAttributes methodAtt = definition4.Attributes;
             if (methodAtt.HasFlag(MethodAttributes.Private))
                 methodAtt &= ~MethodAttributes.Private;
 
-            if(isPublic)
+            if(visible == Visibility.Public)
                 methodAtt |= MethodAttributes.Public;
             else
                 methodAtt |= MethodAttributes.Private;
