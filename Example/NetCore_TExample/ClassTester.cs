@@ -3,11 +3,9 @@ using NetCore;
 
 namespace NetCore_TExample
 {
-    [ClearFields]
-    public class ClassTester
+    public static class ClassTester
     {
         static string HiddenField = "Nice meme.";
-        static WebClient wc = new WebClient();
 
         [RemoteCall]
         public static string GetHiddenField()
@@ -17,12 +15,6 @@ namespace NetCore_TExample
 
         [RemoteCopy]
         public static string RemoveSpaces(string s)
-        {
-            return s.Replace(" ", "");
-        }
-
-        [RemoteCopy]
-        private static string RemoveSpacesPrivate(string s)
         {
             return s.Replace(" ", "");
         }

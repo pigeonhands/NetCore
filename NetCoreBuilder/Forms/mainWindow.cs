@@ -89,24 +89,6 @@ namespace NetCoreBuilder.Forms
 
             bool add = false;
             List<MethodDefinition> RemoveMethods = new List<MethodDefinition>();
-            List<FieldDefinition> RemoveFields = new List<FieldDefinition>();
-
-            foreach (FieldDefinition f in type.Fields)
-            {
-                bool hasAttribute = false;
-                foreach (var i in f.CustomAttributes)
-                {
-                    if (i.AttributeType.FullName == "NetCore.RemoteMoveAttribute")
-                    {
-                        hasAttribute = true;
-                        break;
-                    }
-                }
-
-                if (hasAttribute)
-                    RemoveFields.Add(f);
-            }
-
 
 
             foreach (MethodDefinition method in type.Methods)
@@ -142,6 +124,14 @@ namespace NetCoreBuilder.Forms
                 method.Body.Instructions.Clear();
 
                 ILProcessor ilp = method.Body.GetILProcessor();
+
+                if (visibility == TransportAction.MoveClear)
+                {
+                    ilp.Append(Instruction.Create(OpCodes.Ret));
+                    continue;
+                }
+
+               
                 
                 ilp.Append(Instruction.Create(OpCodes.Ldstr, Hashing.SHA(string.Format("{0}.{1}", type.FullName, method.Name))));
 
@@ -171,11 +161,6 @@ namespace NetCoreBuilder.Forms
 
             foreach (MethodDefinition md in RemoveMethods)
                 type.Methods.Remove(md);
-
-            foreach (FieldDefinition fd in RemoveFields)
-            {
-                Console.WriteLine(fd.Name);
-            }
 
             if (add)
             {

@@ -12,21 +12,23 @@ namespace NetCoreBuilder
         public static bool KeepMethod(TypeDefinition type, MethodDefinition method, out TransportAction visibility)
         {
             bool hasAttribute = false;
-            TransportAction vis = TransportAction.Public; ;
+            TransportAction vis = TransportAction.Public;
 
-
+            
             if (method.Name == ".cctor")
             {
                 hasAttribute = true;
-
+                vis = TransportAction.Copy;
+                
                 foreach (var i in type.CustomAttributes)
                 {
                     if (i.AttributeType.FullName == "NetCore.ClearFieldsAttribute")
                     {
-                        vis = TransportAction.Move;
+                        vis = TransportAction.MoveClear;
                         break;
                     }
                 }
+                
             }
             else
             {
@@ -51,8 +53,10 @@ namespace NetCoreBuilder
                     }
                 }
             }
+
             visibility = vis;
             return hasAttribute;
+
         }
     }
 
@@ -60,6 +64,7 @@ namespace NetCoreBuilder
     {
         Public,
         Copy,
-        Move
+        Move,
+        MoveClear
     }
 }
