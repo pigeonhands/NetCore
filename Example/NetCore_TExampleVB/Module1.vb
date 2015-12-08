@@ -1,4 +1,6 @@
-﻿Imports NetCore
+﻿Imports System.Data.SqlClient
+Imports System.Windows.Forms
+Imports NetCore
 
 Module Module1
 
@@ -7,15 +9,16 @@ Module Module1
             Console.WriteLine("Failed to connect")
             Console.ReadLine()
             Return
-
         End If
-        Console.WriteLine(returnFun())
+
+        Dim dt = returnFun()
+        Console.WriteLine(dt.TableName)
         Console.ReadLine()
     End Sub
 
     <RemoteCall>
-    Function returnFun() As String
-        Return "Derp"
+    Function returnFun() As DataTable
+        Return New DataTable("Test1")
     End Function
 
 End Module

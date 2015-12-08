@@ -61,7 +61,7 @@
             // btnBuild
             // 
             this.btnBuild.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuild.Location = new System.Drawing.Point(106, 139);
+            this.btnBuild.Location = new System.Drawing.Point(113, 139);
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(87, 23);
             this.btnBuild.TabIndex = 2;

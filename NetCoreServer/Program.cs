@@ -149,6 +149,11 @@ namespace NetCoreServer
             }
             catch (Exception ex)
             {
+                try
+                {
+                    client.Send(null);
+                }
+                catch { }
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error: {0}", ex.Message);
                 Console.ResetColor();

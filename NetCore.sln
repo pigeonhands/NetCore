@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreServer", "NetCoreSer
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NetCore_TExampleVB", "Example\NetCore_TExampleVB\NetCore_TExampleVB.vbproj", "{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreServer_GUI", "NetCoreServer_GUI\NetCoreServer_GUI.csproj", "{1D7A6D6E-D94D-4585-8F7A-E104434D1A80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49A344FF-B8E5-437A-88EA-4A5B4C1D3EC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7A6D6E-D94D-4585-8F7A-E104434D1A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7A6D6E-D94D-4585-8F7A-E104434D1A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7A6D6E-D94D-4585-8F7A-E104434D1A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7A6D6E-D94D-4585-8F7A-E104434D1A80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
