@@ -27,6 +27,7 @@ namespace NetCoreServer_GUI.Forms
 
         private void mainWindow_Load(object sender, EventArgs e)
         {
+            this.Text += string.Format(" {0}", Application.ProductVersion);
             LoadModules();
         }
 

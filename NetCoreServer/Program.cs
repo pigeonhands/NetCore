@@ -17,7 +17,7 @@ namespace NetCoreServer
             DirectoryInfo di = new DirectoryInfo("Modules");
             if (!di.Exists)
                 di.Create();
-
+            Console.Title = string.Format("NetCore Server v{0}", Assembly.GetExecutingAssembly().GetName().Version);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("NetCore Server - BahNahNah");
             Console.WriteLine();

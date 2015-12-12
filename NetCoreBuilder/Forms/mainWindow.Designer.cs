@@ -153,6 +153,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "mainWindow";
             this.Text = "NetCore Builder";
+            this.Load += new System.EventHandler(this.mainWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -43,10 +43,12 @@ namespace NetCoreServer_GUI.Forms
                 }
                 catch(Exception ex)
                 {
+                    Exception innerEx = ex.InnerException;
                     execTimer.Stop();
                     i.SubItems.Add("True");
-                    i.SubItems.Add(ex.InnerException.Message);
-                    i.SubItems.Add(ex.InnerException.GetType().ToString());
+                    i.SubItems.Add(innerEx.Message);
+                    i.SubItems.Add(innerEx.GetType().ToString());
+                    i.Tag = innerEx;
                 }
                 finally
                 {
@@ -60,6 +62,20 @@ namespace NetCoreServer_GUI.Forms
         private void formTestCall_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void lvTestResults_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (lvTestResults.SelectedItems.Count < 1)
+                return;
+            ListViewItem i = lvTestResults.SelectedItems[0];
+            if (i.Tag is Exception)
+            {
+                using (formShowString exShow = new formShowString("Exception", i.Tag))
+                {
+                    exShow.ShowDialog();
+                }
+            }
         }
     }
 }

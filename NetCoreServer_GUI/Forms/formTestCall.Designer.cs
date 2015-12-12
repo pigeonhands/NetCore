@@ -54,6 +54,7 @@
             this.lvTestResults.TabIndex = 0;
             this.lvTestResults.UseCompatibleStateImageBehavior = false;
             this.lvTestResults.View = System.Windows.Forms.View.Details;
+            this.lvTestResults.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvTestResults_MouseDoubleClick);
             // 
             // columnHeader1
             // 
