@@ -50,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\RemoteFunctionListViewItem.cs" />
+    <Compile Include="Forms\formTestCall.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\formTestCall.Designer.cs">
+      <DependentUpon>formTestCall.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\mainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     <Compile Include="Funcions\RemoteFunction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\formTestCall.resx">
+      <DependentUpon>formTestCall.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\mainWindow.resx">
       <DependentUpon>mainWindow.cs</DependentUpon>
     </EmbeddedResource>

@@ -155,5 +155,21 @@ namespace NetCoreServer_GUI.Forms
                 i.Function.ExecuteAction = ExecuteAction.Disabled;
             }
         }
+
+        private void testCallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFunctions.Items.Count < 1)
+                return;
+            List<RemoteFunction> functions = new List<RemoteFunction>();
+            foreach (RemoteFunctionListViewItem i in lvFunctions.Items)
+            {
+                functions.Add(i.Function);
+            }
+
+            using (formTestCall testCall = new formTestCall(functions.ToArray()))
+            {
+                testCall.ShowDialog();
+            }
+        }
     }
 }

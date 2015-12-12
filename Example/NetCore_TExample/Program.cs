@@ -14,7 +14,7 @@ namespace NetCore_TExample
                 Console.ReadLine();
                 return;
             }
-            Console.WriteLine("Hidden value: {0}", ClassTester.Check());
+            Console.WriteLine("Hidden value: {0}", ClassTester.ReturnSqlCommand());
 
             Console.ReadLine();
         }

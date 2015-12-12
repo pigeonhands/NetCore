@@ -14,6 +14,7 @@ namespace NetCoreServer_GUI.Funcions
     public class RemoteFunction : IDisposable
     {
         public RemoteFunctionListViewItem ListViewItem { get; set; }
+        public MethodInfo Method { get; private set; }
         public ExecuteAction ExecuteAction
         {
             get { return _ExecuteAction; }
@@ -35,8 +36,6 @@ namespace NetCoreServer_GUI.Funcions
                 UpdateListView();
             }
         }
-
-        private MethodInfo Method;
         private Type ParentType;
         private Assembly loadedAssembly;
         private ExecuteAction _ExecuteAction;

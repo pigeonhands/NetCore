@@ -31,29 +31,30 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.nudPort = new System.Windows.Forms.NumericUpDown();
+            this.btnStart = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.nudPort = new System.Windows.Forms.NumericUpDown();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lvFunctions = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.lvExceptions = new System.Windows.Forms.ListView();
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnStart = new System.Windows.Forms.Button();
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmFunctions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.accessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lvExceptions = new System.Windows.Forms.ListView();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.testCallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
-            this.tabPage3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.cmFunctions.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,7 +66,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(475, 261);
+            this.tabControl1.Size = new System.Drawing.Size(488, 283);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -76,21 +77,31 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(467, 235);
+            this.tabPage1.Size = new System.Drawing.Size(426, 235);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Connection";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // btnStart
             // 
-            this.tabPage2.Controls.Add(this.lvFunctions);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(467, 235);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Remote Functions";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStart.Location = new System.Drawing.Point(11, 32);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(407, 23);
+            this.btnStart.TabIndex = 2;
+            this.btnStart.Text = "Start NetCore Server";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Port:";
             // 
             // nudPort
             // 
@@ -108,7 +119,7 @@
             0,
             0});
             this.nudPort.Name = "nudPort";
-            this.nudPort.Size = new System.Drawing.Size(416, 20);
+            this.nudPort.Size = new System.Drawing.Size(375, 20);
             this.nudPort.TabIndex = 0;
             this.nudPort.Value = new decimal(new int[] {
             3345,
@@ -116,14 +127,16 @@
             0,
             0});
             // 
-            // label1
+            // tabPage2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Port:";
+            this.tabPage2.Controls.Add(this.lvFunctions);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(480, 257);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Remote Functions";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // lvFunctions
             // 
@@ -139,7 +152,7 @@
             this.lvFunctions.GridLines = true;
             this.lvFunctions.Location = new System.Drawing.Point(3, 3);
             this.lvFunctions.Name = "lvFunctions";
-            this.lvFunctions.Size = new System.Drawing.Size(461, 229);
+            this.lvFunctions.Size = new System.Drawing.Size(474, 251);
             this.lvFunctions.TabIndex = 0;
             this.lvFunctions.UseCompatibleStateImageBehavior = false;
             this.lvFunctions.View = System.Windows.Forms.View.Details;
@@ -164,12 +177,48 @@
             this.columnHeader4.Text = "Action";
             this.columnHeader4.Width = 80;
             // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Calls";
+            this.columnHeader6.Width = 53;
+            // 
+            // cmFunctions
+            // 
+            this.cmFunctions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.accessToolStripMenuItem,
+            this.testCallToolStripMenuItem});
+            this.cmFunctions.Name = "cmFunctions";
+            this.cmFunctions.Size = new System.Drawing.Size(117, 48);
+            // 
+            // accessToolStripMenuItem
+            // 
+            this.accessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableToolStripMenuItem,
+            this.disableToolStripMenuItem});
+            this.accessToolStripMenuItem.Name = "accessToolStripMenuItem";
+            this.accessToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.accessToolStripMenuItem.Text = "Access";
+            // 
+            // enableToolStripMenuItem
+            // 
+            this.enableToolStripMenuItem.Name = "enableToolStripMenuItem";
+            this.enableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.enableToolStripMenuItem.Text = "Enable";
+            this.enableToolStripMenuItem.Click += new System.EventHandler(this.enableToolStripMenuItem_Click);
+            // 
+            // disableToolStripMenuItem
+            // 
+            this.disableToolStripMenuItem.Name = "disableToolStripMenuItem";
+            this.disableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.disableToolStripMenuItem.Text = "Disable";
+            this.disableToolStripMenuItem.Click += new System.EventHandler(this.disableToolStripMenuItem_Click);
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.lvExceptions);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(467, 235);
+            this.tabPage3.Size = new System.Drawing.Size(426, 235);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Exceptions";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -181,7 +230,7 @@
             this.lvExceptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvExceptions.Location = new System.Drawing.Point(0, 0);
             this.lvExceptions.Name = "lvExceptions";
-            this.lvExceptions.Size = new System.Drawing.Size(467, 235);
+            this.lvExceptions.Size = new System.Drawing.Size(426, 235);
             this.lvExceptions.TabIndex = 0;
             this.lvExceptions.UseCompatibleStateImageBehavior = false;
             this.lvExceptions.View = System.Windows.Forms.View.Details;
@@ -191,56 +240,18 @@
             this.columnHeader5.Text = "Message";
             this.columnHeader5.Width = 400;
             // 
-            // btnStart
+            // testCallToolStripMenuItem
             // 
-            this.btnStart.Location = new System.Drawing.Point(11, 32);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 2;
-            this.btnStart.Text = "btnStart";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Calls";
-            this.columnHeader6.Width = 53;
-            // 
-            // cmFunctions
-            // 
-            this.cmFunctions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accessToolStripMenuItem});
-            this.cmFunctions.Name = "cmFunctions";
-            this.cmFunctions.Size = new System.Drawing.Size(111, 26);
-            // 
-            // accessToolStripMenuItem
-            // 
-            this.accessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableToolStripMenuItem,
-            this.disableToolStripMenuItem});
-            this.accessToolStripMenuItem.Name = "accessToolStripMenuItem";
-            this.accessToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.accessToolStripMenuItem.Text = "Access";
-            // 
-            // disableToolStripMenuItem
-            // 
-            this.disableToolStripMenuItem.Name = "disableToolStripMenuItem";
-            this.disableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.disableToolStripMenuItem.Text = "Disable";
-            this.disableToolStripMenuItem.Click += new System.EventHandler(this.disableToolStripMenuItem_Click);
-            // 
-            // enableToolStripMenuItem
-            // 
-            this.enableToolStripMenuItem.Name = "enableToolStripMenuItem";
-            this.enableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.enableToolStripMenuItem.Text = "Enable";
-            this.enableToolStripMenuItem.Click += new System.EventHandler(this.enableToolStripMenuItem_Click);
+            this.testCallToolStripMenuItem.Name = "testCallToolStripMenuItem";
+            this.testCallToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testCallToolStripMenuItem.Text = "Test call";
+            this.testCallToolStripMenuItem.Click += new System.EventHandler(this.testCallToolStripMenuItem_Click);
             // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 261);
+            this.ClientSize = new System.Drawing.Size(488, 283);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(450, 300);
@@ -250,10 +261,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudPort)).EndInit();
-            this.tabPage3.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.cmFunctions.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -279,5 +290,6 @@
         private System.Windows.Forms.ToolStripMenuItem accessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testCallToolStripMenuItem;
     }
 }

@@ -3,6 +3,7 @@ using NetCore;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
+using System;
 
 namespace NetCore_TExample
 {
@@ -11,7 +12,7 @@ namespace NetCore_TExample
         static string HiddenField = "Nice meme.";
 
         [RemoteCall]
-        public static string Check()
+        public static string ReturnSqlCommand()
         {
             SqlCommand command = new SqlCommand();
             return check2(command);
@@ -22,6 +23,12 @@ namespace NetCore_TExample
         {
             SqlDataReader reader = null;
             return "Strange.";
+        }
+
+        [RemoteCall]
+        public static string ThrowError()
+        {
+            throw new Exception("This is an exception being thrown");
         }
     }
 }
