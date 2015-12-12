@@ -5,6 +5,7 @@ using System.Reflection;
 using NetCore.Networking;
 using System.Text;
 using NetCore;
+using System.Diagnostics;
 
 namespace NetCoreServer
 {
@@ -109,8 +110,7 @@ namespace NetCoreServer
             Console.WriteLine();
             Console.ResetColor();
 
-            while (true)
-                Console.ReadLine();
+            AcceptCommands();
 
         }
 
@@ -157,6 +157,75 @@ namespace NetCoreServer
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error: {0}", ex.Message);
                 Console.ResetColor();
+            }
+        }
+
+        static void AcceptCommands()
+        {
+            while(true)
+            {
+                try
+                {
+                    Console.Write(": ");
+                    string fullCmd = Console.ReadLine();
+                    string[] cmdParams = new string[0];
+                    if(fullCmd.Contains(" "))
+                        cmdParams = fullCmd.Split(' ');
+                    switch((cmdParams.Length > 0 ? cmdParams[0] : fullCmd).ToLower())
+                    {
+                        case "testcall":
+                            MethodInfo f = null;
+                            if (!LoadedFunctions.ContainsKey(cmdParams[1]))
+                            {
+                                f = LoadedFunctions[Hashing.SHA(cmdParams[1])];
+                            }
+                            else
+                            {
+                                f = LoadedFunctions[cmdParams[1]];
+                            }
+                            Stopwatch execTimer = new Stopwatch();
+                            try
+                            {
+                                ParameterInfo[] paramInfo = f.GetParameters();
+                                List<object> paramiters = new List<object>();
+
+                                foreach (ParameterInfo p in paramInfo)
+                                {
+                                    paramiters.Add(p.DefaultValue);
+                                }
+
+                                execTimer.Start();
+                                object result = f.Invoke(null, paramiters.ToArray());
+                                execTimer.Stop();
+
+                                Console.WriteLine("Execute success.");
+                                Console.WriteLine("Returned: {0}", result);
+                                Console.WriteLine("Return Type: {0}", result.GetType());
+                            }
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine("Execute Failed.");
+                                if(ex.InnerException != null)
+                                    Console.WriteLine("Exception Message: {0}", ex.InnerException.Message);
+                                else
+                                    Console.WriteLine("Invoke Exception: {0}", ex.Message);
+                                Console.WriteLine("Return Type: {0}", ex.GetType());
+                                execTimer.Stop();
+                            }
+                            finally
+                            {
+                                Console.WriteLine("Execution Time: {0}ms", execTimer.ElapsedMilliseconds);
+                                execTimer.Reset();
+                                Console.WriteLine();
+                            }
+
+                            break;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Command.");
+                }
             }
         }
     }
